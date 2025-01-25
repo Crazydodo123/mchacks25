@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
+from random import randint
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -13,6 +14,7 @@ def register():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
+    id = hex(randint(0, 16 ** 16))[2:]
 
     if not email or not password:
         return jsonify({'error': 'Missing required fields'}), 400
@@ -25,6 +27,7 @@ def register():
     users[email] = {
         "email": email,
         "password": hashed_password,
+        "id": id,
     }
 
     return jsonify({'message': 'User registered successfully'}), 201
@@ -42,4 +45,19 @@ def login():
     if email not in users.keys() or not check_password_hash(users[email]["password"], password):
         return jsonify({'error': 'Invalid credentials'}), 401
 
-    return users[email], 200
+    response = users[email]
+    response.pop("password")
+    return response, 200
+
+@bp.post('/get_info')
+def get_user_info():
+    data = request.get_json()
+    id = data.get("id")
+
+    if not id:
+        return jsonify({'error': 'Missing id'}), 400
+
+    if id not in [user["id"] for user in users.values()]:
+        return jsonify({'error': 'Invalid credentials'}), 401
+    
+    return [user for user in users.values() if user["id"] == id][0]

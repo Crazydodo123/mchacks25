@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 import requests
 import base64
 
-bp = Blueprint('poker', __name__, url_prefix='/api/debt')
+bp = Blueprint('debt', __name__, url_prefix='/api/debt')
 
 @bp.get("/")
 def get_debts():

@@ -18,7 +18,6 @@ def create_app():
     app.register_blueprint(debt.bp)
 
 
-
     @app.route('/hello')
     def hello():
         return 'Hello, World!'

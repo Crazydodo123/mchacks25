@@ -5,21 +5,21 @@ import AppTitle from "../components/title";
 
 export default function Index() {
   const s = require('../styles');
-  const [username, setUsername] = useState({});
-  const [password, setPassword] = useState({});
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
 
   const validateUser = () => {
     // check if user exists and if so, if they put the correct password
     // if so:
-    router.navigate({pathname: "/user/[id]", params: {id: username.toString()}});
+    router.navigate({pathname: "/user/[id]", params: {id: user}});
   };
 
   return (
     <View style={{...s.mainScreenB, paddingBottom: 150}}>
       <AppTitle/>
       <View>
-          <TextInput style={s.textInput} placeholderTextColor="lightgray" textContentType="username" placeholder="email" onChangeText={newText => setUsername({...username, username: newText})}/>
-          <TextInput style={s.textInput} placeholderTextColor="lightgray" textContentType="password" placeholder="password" secureTextEntry={true} onChangeText={newText => setUsername({...password, password: newText})}/>
+          <TextInput style={s.textInput} placeholderTextColor="lightgray" textContentType="username" placeholder="email" onChangeText={newText => setUser(newText)}/>
+          <TextInput style={s.textInput} placeholderTextColor="lightgray" textContentType="password" placeholder="password" secureTextEntry={true} onChangeText={newText => setPass(newText)}/>
           <Link href="/forgot-pass" asChild><TouchableOpacity><Text style={{...s.linkText, marginVertical: 5}}>Forgot password?</Text></TouchableOpacity></Link>
           <TouchableOpacity style={s.hozButton} onPress={() => {validateUser()}}><Text style={s.buttonText}>Log In</Text></TouchableOpacity>
       </View>

@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
 import requests
 import base64
+from mindee import Client, PredictResponse, product
 
-bp = Blueprint('debt', __name__, url_prefix='/api/debt')
+bp = Blueprint('poker', __name__, url_prefix='/api/debt')
 
 @bp.get("/")
 def get_debts():
@@ -18,27 +19,21 @@ def get_debts_from_id():
 
 @bp.post("/extract-receipt")
 def extract_receipt():
-    if 'image' not in request.files:
-        return jsonify({"error": "No image file provided"}), 400
+    if "file" not in request.files:
+        return jsonify({"error": "No file provided"}), 400
+    # Init a new client
+    imgFile = request.files["file"]
+    mindee_client = Client(api_key="8a5a0fe590306339d4a2fb712dc715ea")
 
-    # Retrieve the uploaded image
-    image_file = request.files['image']
+    # Load a file from disk
+    input_doc = mindee_client.source_from_path(imgFile)
 
-    # Convert the image to base64 (if required by the Gumloop API)
-    image_base64 = base64.b64encode(image_file.read()).decode('utf-8')
-    url = "https://api.gumloop.com/api/v1/start_pipeline"
+    # Load a file from disk and parse it.
+    # The endpoint name must be specified since it cannot be determined from the class.
+    result: PredictResponse = mindee_client.parse(product.ReceiptV5, input_doc)
 
-    payload = {
-    "user_id": "xAOao0fOp4chdJeXLOMy28LBiim1",
-    "saved_item_id": "8ZfX7fynGzZsjsiJKynwJd",
-    "file_name": "receipt_input",
-    "file_content": image_file
-    }
-    headers = {
-    "Authorization": "Bearer dad6eb5438ed4df49e3bd066092e9d45",
-    "Content-Type": "application/json"
-    }
+    # Print a summary of the API result
+    print(result.document)
 
-    response = requests.request("POST", url, json=payload, headers=headers)
-
-    print(response.text)
+    # Print the document-level summary
+    # print(result.document.inference.prediction)

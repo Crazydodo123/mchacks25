@@ -41,12 +41,7 @@ def login():
     if not email or not password:
         return jsonify({'error': 'Missing email or password'}), 400
     
-    if email not in users.keys():
+    if email not in users.keys() or not check_password_hash(users[email]["password"], password):
         return jsonify({'error': 'Invalid credentials'}), 401
-    
+
     return users[email], 200
-
-
-@bp.get("/<int:id>")
-def get_debts_from_id():
-    return []

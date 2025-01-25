@@ -11,11 +11,10 @@ users = {
 @bp.post('/register')
 def register():
     data = request.get_json()
-    username = data.get('username')
     email = data.get('email')
     password = data.get('password')
 
-    if not username or not email or not password:
+    if not email or not password:
         return jsonify({'error': 'Missing required fields'}), 400
     
     if email in users.keys():
@@ -24,7 +23,6 @@ def register():
 
     hashed_password = generate_password_hash(password)
     users[email] = {
-        "username": username,
         "email": email,
         "password": hashed_password,
     }

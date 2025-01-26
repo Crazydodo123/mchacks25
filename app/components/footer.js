@@ -9,7 +9,7 @@ const Footer = (props) => {
     // [feather icon name, page extension (for navigation), page name (for display)]
     const icons = [["home", "home", "home"], ["users", "friends", "friends"], ["plus", "add-debt", "track"], ["trending-up", "stats", "statistics"], ["settings", "settings", "settings"]];
 
-    console.log(props.page)
+    console.log("props", props)
 
     return (
         <View style={{...s.hbox, backgroundColor: "white", width: "100%", justifyContent: "space-evenly"}}>

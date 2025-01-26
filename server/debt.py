@@ -51,6 +51,23 @@ def add_debt():
 
     user_owed.total_amount += amount
     user_owing.total_amount -= amount
+    if user_owing.total_amount <= -50:
+        url = "https://api.gumloop.com/api/v1/start_pipeline"
+        email = data.get('email')
+        message = "The user's name is " + data.get('username') + " and they are " + str(user_owing.total_amount) + " dollars in debt with no signs of paying it back to their friends anytime soon."
+        payload = {
+            "user_id": "xAOao0fOp4chdJeXLOMy28LBiim1",
+            "saved_item_id": "5kRukEgUKGUyADokZTcL2v",
+            "pipeline_inputs": [
+                {"input_name": "message", "value": message},
+                {"input_name": "email", "value": email}
+            ]
+        }
+        headers = {
+            "Authorization": "Bearer dad6eb5438ed4df49e3bd066092e9d45",
+            "Content-Type": "application/json"
+        }
+        response = requests.request("POST", url, json=payload, headers=headers)
 
     new_transaction = Transactions(
         user_owed_id=user_owed.username,

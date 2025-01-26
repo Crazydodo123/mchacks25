@@ -2,15 +2,17 @@ import { Text, View, TouchableOpacity, TextInput } from "react-native";
 import { useState } from "react";
 import { Link, router } from "expo-router";
 import AppTitle from "../components/title";
+import authServices from "./services/auth"
 
 export default function Index() {
   const s = require('../styles');
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
 
-  const validateUser = () => {
-    // check if user exists and if so, if they put the correct password
-    // if so:
+  const validateUser = async () => {
+    const response = await authServices.register({ email: user, password: pass })
+    router.navigate({pathname: "/user/[id]", params: { id: response.id }})
+
     router.navigate({pathname: "/user/[id]", params: {id: user}});
   };
 

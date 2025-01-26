@@ -17,7 +17,10 @@ export default function Index() {
       return
     }
     
-    const response = await authServices.register({ email, password })
+    await authServices.register({ email, password })
+    const response = await authServices.login({ email, password })
+
+    console.log(response)
     router.navigate({pathname: "/user/[id]", params: { id: response.id }})
   }
 

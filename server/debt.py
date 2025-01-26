@@ -1,5 +1,4 @@
-from flask import Blueprint, request, jsonify
-import requests
+from flask import Blueprint, request, jsonify, Flask
 import base64
 from mindee import Client, PredictResponse, product
 
@@ -22,11 +21,11 @@ def extract_receipt():
     if "file" not in request.files:
         return jsonify({"error": "No file provided"}), 400
     # Init a new client
-    imgFile = request.files["file"]
+    imgFile = request.files["file"]  
     mindee_client = Client(api_key="8a5a0fe590306339d4a2fb712dc715ea")
 
     # Load a file from disk
-    input_doc = mindee_client.source_from_path(imgFile)
+    input_doc = mindee_client.source_from_path(base64_string)
 
     # Load a file from disk and parse it.
     # The endpoint name must be specified since it cannot be determined from the class.

@@ -49,7 +49,7 @@ def login():
         return jsonify({'error': 'Invalid credentials'}), 401
 
     return jsonify({
-        'id': user.user_id,
+        'id': user.id,
         'email': user.email,
         'user_id': user.user_id
     }), 200

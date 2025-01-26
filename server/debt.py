@@ -49,6 +49,9 @@ def add_debt():
     user_owed = User.query.filter_by(username=user_owed_id).first()
     user_owing = User.query.filter_by(username=user_owing_id).first()
 
+    user_owed.total_amount += amount
+    user_owing.total_amount -= amount
+
     new_transaction = Transactions(
         user_owed_id=user_owed.username,
         user_owing_id=user_owing.username,

@@ -46,23 +46,22 @@ const AnalyticsPage = () => {
             </View>
 
             <Text style={{ fontSize: 16, fontFamily: "Verdana", marginTop: 30, textAlign: 'left', width: "100%", marginBottom: 10 }}>Most in Debt</Text>
-            <table style={{marginBottom: 20}}>
-                <tbody style={{}}>
-                    {Object.keys(sampleData)
-                        .sort((a, b) => {
-                            return sampleData[a][sampleData[a].length - 1] - sampleData[b][sampleData[b].length - 1]
-                        })
-                        .map(name => {
-                            return <tr>
-                                <td style={{ width: "20%" }}>{name}</td>
-                                <td style={{ textAlign: "center" }}>{sampleData[name][sampleData[name].length - 1].toFixed(2)} $</td>
-                            </tr>
-                        })
-                    }
-                </tbody>
-            </table>
+            <View style={{ marginBottom: 20 }}>
+                {Object.keys(sampleData)
+                .sort((a, b) => {
+                    return sampleData[a][sampleData[a].length - 1] - sampleData[b][sampleData[b].length - 1];
+                })
+                .map((name, index) => (
+                    <View key={index} style={{ flexDirection: "row", paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: "#ccc" }}>
+                    <Text style={{ fontSize: 16, color: "#333", flex: 1, width: "20%" }}>{name}</Text>
+                    <Text style={{ fontSize: 16, color: "#333", flex: 1, textAlign: "center" }}>
+                        {sampleData[name][sampleData[name].length - 1].toFixed(2)} $
+                    </Text>
+                    </View>
+                ))}
+            </View>
 
-            <View style={{ width: "100%", height: "30%", marginTop: 20 }}>
+            {/* <View style={{ width: "100%", height: "30%", marginTop: 20 }}>
                 <Text style={{ fontSize: 16, fontFamily: "Verdana" }}>Debt for the Past Month</Text>
                 <Line
                     style={{ width: "100%", height: 1200, marginTop: 20 }}
@@ -110,7 +109,7 @@ const AnalyticsPage = () => {
                         }),
                     }}
                 />
-            </View>
+            </View> */}
         {/* 
             <div className="flex flex-col items-center">
             <p className="mb-[10px]">Spending in the last month</p>

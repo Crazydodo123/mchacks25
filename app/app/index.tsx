@@ -11,7 +11,7 @@ export default function Index() {
 
   const validateUser = async () => {
     const response = await authServices.login({ email: user, password: pass })
-    router.navigate({pathname: "/user/[id]", params: { id: response.id }})
+    if (response) router.navigate({pathname: "/user/[id]", params: { id: response.id }})
   };
 
   return (

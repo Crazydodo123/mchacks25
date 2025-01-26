@@ -1,13 +1,12 @@
 from flask import Blueprint, request, jsonify
-from flask_sqlalchemy import SQLALchemy
+from flask_sqlalchemy import SQLAlchemy
 import requests
-import base64
 from . import db
 from .models import Transactions, User
 from dotenv import load_dotenv
 
 import requests, json, os
-
+    
 load_dotenv()
 
 bp = Blueprint('debt', __name__, url_prefix='/api/debt')

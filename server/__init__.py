@@ -18,18 +18,19 @@ def create_app():
     CORS(app)
 
 
-    # os.environ.get is like os.gentenv but we can use like full dictionary
-    db_user = os.environ.get('RAILWAY_USER', 'root')
-    db_password = os.environ.get('RAILWAY_PASSWORD', 'zYXANbKmvKPUnRqfZpVPsUxbfckKPZdB')
-    db_host = os.environ.get('RAILWAY_HOSTNAME', 'mysql.railway.internal')
-    db_port = os.environ.get('RAILWAY_PORT', '3306')
-    db_database = os.environ.get('RAILWAY_DATABASE', 'railway')
+    # # os.environ.get is like os.gentenv but we can use like full dictionary
+    # db_user = os.environ.get('RAILWAY_USER', 'root')
+    # db_password = os.environ.get('RAILWAY_PASSWORD', '')
+    # db_host = os.environ.get('RAILWAY_HOSTNAME', '127.0.0.1')
+    # db_port = os.environ.get('RAILWAY_PORT', '3306')
+    # db_database = os.environ.get('RAILWAY_DATABASE', 'railway')
 
-    db_url = f'mysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_database}'
+    # db_url = f'mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_database}'
 
     app.config.from_mapping(
         SECRET_KEY=os.environ.get('SECRET_KEY', 'dev'),
-        SQLALCHEMY_DATABASE_URI = db_url,
+        # SQLALCHEMY_DATABASE_URI = db_url,
+        SQLALCHEMY_DATABASE_URI = 'sqlite:///debt_tracker.db',
         SQLALCHEMY_TRACK_MODIFICATIONS = False,
     )
 
@@ -45,6 +46,9 @@ def create_app():
     app.register_blueprint(auth.bp)
     app.register_blueprint(debt.bp)
 
+
+    with app.app_context():
+        db.create_all()
 
     @app.route('/hello')
     def hello():

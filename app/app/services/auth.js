@@ -21,7 +21,12 @@ const login = async (loginInfo) => {
 
 const getUserInfo = async (id) => {
     try {
-        const response = await axios.get(`${baseUrl}/get_info`, { id })
+        const response = await axios.get(`${baseUrl}/get_info/${id}`, {
+            headers: {
+                "ngrok-skip-browser-warning": true
+            }
+        })
+        console.log(`${baseUrl}/get_info/${id}`)
         return response.data
     } catch (e) {
         alert(e)

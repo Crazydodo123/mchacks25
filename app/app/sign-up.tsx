@@ -7,9 +7,9 @@ import authServices from "./services/auth"
 
 export default function Index() {
   const s = require("../styles.js");
-  const [email, setEmail] = useState({});
-  const [password, setPassword] = useState({});
-  const [cpassword, setCPassword] = useState({});
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpassword, setCPassword] = useState("");
 
   const register = async () => {
     if (password !== cpassword) {
@@ -21,7 +21,7 @@ export default function Index() {
     const response = await authServices.login({ email, password })
 
     console.log(response)
-    router.replace({pathname: "/user/home", params: { id: response.id }})
+    router.replace({pathname: "/user/home", params: { id: response.id, email: email }})
   }
 
   return (

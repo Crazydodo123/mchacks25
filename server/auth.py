@@ -18,6 +18,10 @@ def register():
     if not email or not password:
         return jsonify({'error': 'Missing required fields'}), 400
     
+    existing_email = User.query.filter_by(email=email).first()
+    if existing_email:
+        return jsonify({'error': 'Email already registered'})
+    
     # hash passwords 
     # similar to encrypting them, except they're never decrypted (ie. non reversible)
     hashed_password = generate_password_hash(password)

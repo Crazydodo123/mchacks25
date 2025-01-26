@@ -1,9 +1,14 @@
-# Auto detect text files and perform LF normalization
-* text=auto eol=lf
+# Handle line endings automatically for files detected as text
+* text=auto
 
-# Force batch scripts to use CRLF
-*.{cmd,[cC][mM][dD]} text eol=crlf
-*.{bat,[bB][aA][tT]} text eol=crlf
-
-# Force bash scripts to use LF
-*.sh text eol=lf
+# Force these files to use LF
+*.tsx text eol=lf
+*.ts text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.css text eol=lf
+*.html text eol=lf

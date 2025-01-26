@@ -6,10 +6,10 @@ const darkgreen = "rgb(73, 163, 128)";
 
 module.exports = StyleSheet.create({
     mainScreenA: {
-        backgroundColor: "rbh(245, 245, 245)",
+        backgroundColor: "rbg(245, 245, 245)",
         flex: 1,
         justifyContent: "center",
-        alignItems: "center",
+        paddingTop: 20,
     },
 
     mainScreenB: {
@@ -62,7 +62,6 @@ module.exports = StyleSheet.create({
     plainText: {
         fontSize: 15,
         fontWeight: 500,
-        textAlign: "right",
     },
 
     linkText: {
@@ -105,6 +104,14 @@ module.exports = StyleSheet.create({
     iconText: {
         fontSize: 15,
         color: medgreen,
-        paddingBottom: 10,
-    }
+        paddingBottom: 25,
+    },
+
+    sectionHeaderBox: {
+        height: 50,
+        backgroundColor: "white",
+        paddingHorizontal: 20,
+        alignItems: 'center',
+        flexDirection: "row",
+    },
 });

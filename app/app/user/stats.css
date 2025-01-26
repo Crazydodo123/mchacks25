@@ -1,0 +1,9 @@
+#title {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    align-self: flex-start;
+}
+
+.titletext {
+    font-weight: bolder;
+    font-size: 1.8rem;
+}

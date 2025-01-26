@@ -1,12 +1,11 @@
 from flask import Blueprint, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
 import requests
 from . import db
 from .models import Transactions, User
 from dotenv import load_dotenv
 
 import requests, json, os
-    
+
 load_dotenv()
 
 bp = Blueprint('debt', __name__, url_prefix='/api/debt')
@@ -46,8 +45,8 @@ def add_debt():
     if amount is None:
         return jsonify({'error': 'Invalid amount'}), 400
     
-    user_owed = User.query.filter_by(username=user_owed_id).first()
-    user_owing = User.query.filter_by(username=user_owing_id).first()
+    user_owed = User.query.filter_by(user_id=user_owed_id).first()
+    user_owing = User.query.filter_by(user_id=user_owing_id).first()
 
     user_owed.total_amount += amount
     user_owing.total_amount -= amount

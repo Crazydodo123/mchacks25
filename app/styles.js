@@ -90,10 +90,21 @@ module.exports = StyleSheet.create({
         alignItems: "center",
     },
 
+    iconBox: {
+        alignItems: "center",
+    },
+
     icon: {
-        fontSize: 35,
-        strokeWidth: 10,
-        padding: 15,
+        fontSize: 25,
+        padding: 25,
+        paddingTop: 15,
+        paddingBottom: 2,
         color: medgreen,
     },
+
+    iconText: {
+        fontSize: 15,
+        color: medgreen,
+        paddingBottom: 10,
+    }
 });

@@ -11,11 +11,11 @@ export default function Index() {
 
   const validateUser = async () => {
     const response = await authServices.login({ email: user, password: pass })
-    if (response) router.navigate({pathname: "/user/[id]", params: { id: response.id }})
+    if (response) router.navigate({pathname: "/user/home", params: { id: response.id }})
   };
 
   return (
-    <View style={{...s.mainScreenB, paddingBottom: 150}}>
+    <View style={{...s.mainScreenB, paddingBottom: 100}}>
       <AppTitle/>
       <View>
           <TextInput style={s.textInput} placeholderTextColor="lightgray" textContentType="username" placeholder="email" onChangeText={newText => setUser(newText)}/>

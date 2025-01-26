@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons"; 
 
-const Header = (props) => {
+const Footer = (props) => {
     const s = require("../styles.js");
 
     const icons = [["home", "[id]"], ["users", "friends"], ["plus", "track-debt"], ["trending-up", "stats"], ["settings", "settings"]];
@@ -26,4 +26,4 @@ const Header = (props) => {
     );
 };
 
-export default Header;
+export default Footer;

@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/user/cam-overlay.jsx"  ]
+, "app/user/cam-overlay.jsx", "app/user/manual-debt-overlay.jsx"  ]
 }

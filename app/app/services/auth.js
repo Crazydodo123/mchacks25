@@ -2,18 +2,30 @@ import axios from 'axios'
 const baseUrl = 'https://boss-previously-grubworm.ngrok-free.app/api/auth'
 
 const register = async (newUser) => {
-    const response = await axios.post(`${baseUrl}/register`, newUser)
-    return response.data
+    try {
+        const response = await axios.post(`${baseUrl}/register`, newUser)
+        return response.data
+    } catch (e) {
+        alert(e)
+    }
 }
 
 const login = async (loginInfo) => {
-    const response = await axios.post(`${baseUrl}/login`, loginInfo)
-    return response.data
+    try {
+        const response = await axios.post(`${baseUrl}/login`, loginInfo)
+        return response.data
+    } catch (e) {
+        alert(e)
+    }
 }
 
 const getUserInfo = async (id) => {
-    const response = await axios.post(`${baseUrl}/get_info`, { id })
-    return response.data
+    try {
+        const response = await axios.get(`${baseUrl}/get_info`, { id })
+        return response.data
+    } catch (e) {
+        alert(e)
+    }
 }
 
 export default { register, login, getUserInfo }

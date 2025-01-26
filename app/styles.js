@@ -91,7 +91,7 @@ module.exports = StyleSheet.create({
     },
 
     icon: {
-        fontSize: 20,
+        fontSize: 35,
         strokeWidth: 10,
         padding: 15,
         color: medgreen,

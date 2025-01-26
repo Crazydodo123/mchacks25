@@ -45,7 +45,7 @@ def login():
     if email not in users.keys() or not check_password_hash(users[email]["password"], password):
         return jsonify({'error': 'Invalid credentials'}), 401
 
-    response = users[email]
+    response = users[email].copy()
     response.pop("password")
     return response, 200
 

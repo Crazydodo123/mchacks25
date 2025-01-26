@@ -10,10 +10,8 @@ export default function Index() {
   const [pass, setPass] = useState("");
 
   const validateUser = async () => {
-    const response = await authServices.register({ email: user, password: pass })
+    const response = await authServices.login({ email: user, password: pass })
     router.navigate({pathname: "/user/[id]", params: { id: response.id }})
-
-    router.navigate({pathname: "/user/[id]", params: {id: user}});
   };
 
   return (

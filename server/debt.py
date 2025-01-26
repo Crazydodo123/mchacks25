@@ -19,7 +19,7 @@ def get_transactions():
     return jsonify({
         'users': [{
             'id': user.id,
-            'username': user.username,
+            'user_id': user.user_id,
             'total_amount': user.total_amount
         } for user in users],
         'transactions': [{
@@ -53,7 +53,7 @@ def add_debt():
     if user_owing.total_amount <= -50:
         url = "https://api.gumloop.com/api/v1/start_pipeline"
         email = data.get('email')
-        message = "The user's name is " + data.get('username') + " and they are " + str(user_owing.total_amount) + " dollars in debt with no signs of paying it back to their friends anytime soon."
+        message = "The user's name is " + data.get('user_id') + " and they are " + str(user_owing.total_amount) + " dollars in debt with no signs of paying it back to their friends anytime soon."
         payload = {
             "user_id": "xAOao0fOp4chdJeXLOMy28LBiim1",
             "saved_item_id": "5kRukEgUKGUyADokZTcL2v",
@@ -69,8 +69,8 @@ def add_debt():
         response = requests.request("POST", url, json=payload, headers=headers)
 
     new_transaction = Transactions(
-        user_owed_id=user_owed.username,
-        user_owing_id=user_owing.username,
+        user_owed_id=user_owed.user_id,
+        user_owing_id=user_owing.user_id,
         amount=amount,
         description=description
     )
@@ -88,11 +88,11 @@ def add_debt():
         },
         'updated_balances': {
             'user_owed': {
-                'username': user_owed.username,
+                'user_id': user_owed.user_id,
                 'total_amount_curr': user_owed.total_amount
             },
             'user_owing': {
-                'username': user_owing.username,
+                'user_id': user_owing.user_id,
                 'total_amount_curr': user_owing.total_amount
             }
         }
@@ -106,12 +106,12 @@ def get_debts_from_id(id):
         return jsonify({'error': 'User not found'}), 404
     
     transacts = Transactions.query.filter(
-        (Transactions.user_owed_id == user.username) | (Transactions.user_owing_id == user.username)).all()
+        (Transactions.user_owed_id == user.user_id) | (Transactions.user_owing_id == user.user_id)).all()
 
     return jsonify({
         'user': {
             'id': user.id,
-            'username': user.username,
+            'user_id': user.user_id,
             'total_amount': user.total_amount
         },
         'transactions': [{
@@ -119,8 +119,8 @@ def get_debts_from_id(id):
             'amount': transact.amount,
             'description': transact.description,
             'transaction_dt': transact.transaction_dt,
-            'type': 'owed' if transact.user_owed_id == user.username else 'owing',
-            'other_user': transact.user_owing_id if transact.user_owed_id == user.username else transact.user_owed_id
+            'type': 'owed' if transact.user_owed_id == user.user_id else 'owing',
+            'other_user': transact.user_owing_id if transact.user_owed_id == user.user_id else transact.user_owed_id
         } for transact in transacts]
     }), 200
 

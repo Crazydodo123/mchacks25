@@ -12,7 +12,7 @@ bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 def register():
     data = request.get_json()
     email = data.get('email')
-    username = email
+    email = email
     password = data.get('password')
 
     if not email or not password:
@@ -29,7 +29,7 @@ def register():
         return jsonify({'error': 'Password hashing failed'}), 400
     
     # connects to the database
-    new_user = User(username=username, email=email, password=hashed_password, user_id=hex(randint(0, 16 ** 16))[2:])
+    new_user = User(email=email, password=hashed_password, user_id=hex(randint(0, 16 ** 16))[2:])
     db.session.add(new_user)
     db.session.commit()
 
@@ -52,7 +52,7 @@ def login():
     return jsonify({
         'id': user.user_id,
         'email': user.email,
-        'username': user.username
+        'user_id': user.user_id
     }), 200
 
 
@@ -66,7 +66,7 @@ def get_user_info(id):
     user = User.query.filter_by(user_id=id).first()
 
     return jsonify({
-        'id': user.user_id,
+        'id': user.id,
         'email': user.email,
-        'username': user.username
+        'user_id': user.user_id
     }), 200

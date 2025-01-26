@@ -129,7 +129,7 @@ def get_debts_from_id(id):
 @bp.post("/extract-receipt")
 def extract_receipt():
     data = request.get_json()
-    image = data.get('image')
+    image = data.get('base64')
 
     if not image:
         return jsonify({'error': 'Missing required fields'}), 400
@@ -175,4 +175,6 @@ def send_text():
 
     response = requests.request("POST", url, json=payload, headers=headers)
 
-    print(response.text)
+    print(response.json())
+
+    return response.json()

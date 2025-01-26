@@ -1,5 +1,7 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
+from random import randint
+from markupsafe import escape
 from . import db
 from .models import User
 
@@ -13,11 +15,11 @@ users = {
 @bp.post('/register')
 def register():
     data = request.get_json()
-    username = data.get('username')
     email = data.get('email')
     password = data.get('password')
+    id = hex(randint(0, 16 ** 16))[2:]
 
-    if not username or not email or not password:
+    if not email or not password:
         return jsonify({'error': 'Missing required fields'}), 400
     
     if email in users.keys():
@@ -48,7 +50,21 @@ def login():
         return jsonify({'error': 'Missing email or password'}), 400
     
     user = User.query.filter_by(email=email).first()
-    if not user or not check_password_hash(user.password, password):
+    if not user or not check_password_hash(user.password, password) or not check_password_hash(users[email]["password"], password):
+        return jsonify({'error': 'Invalid credentials'}), 401
+
+    response = users[email].copy()
+    response.pop("password")
+    return response, 200
+
+@bp.get('/get_info/<id>')
+def get_user_info(id):
+    id = escape(id)
+
+    if not id:
+        return jsonify({'error': 'Missing id'}), 400
+
+    if id not in [user["id"] for user in users.values()]:
         return jsonify({'error': 'Invalid credentials'}), 401
     
     return jsonify({

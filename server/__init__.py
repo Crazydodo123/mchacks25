@@ -9,11 +9,13 @@ class Base(DeclarativeBase):
 
 load_dotenv()
 
-db = SQLAlchemy(model_class=Base)
+db = SQLAlchemy(model_class=Base)from flask_cors import CORS
 
 def create_app():
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
+
 
     # os.environ.get is like os.gentenv but we can use like full dictionary
     db_user = os.environ.get('RAILWAY_USER', 'root')

@@ -1,28 +1,33 @@
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import { Text, View, TouchableOpacity, TextInput } from "react-native";
+import { useState } from "react";
+import { Link, router } from "expo-router";
+import AppTitle from "../components/title";
+import authServices from "./services/auth"
 
 export default function Index() {
   const s = require('../styles');
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+
+  const validateUser = async () => {
+    const response = await authServices.login({ email: user, password: pass })
+    if (response) router.navigate({pathname: "/user/home", params: { id: response.id }})
+  };
 
   return (
-    <View style={s.mainScreen}>
-      <View style={{...s.hbox, margin: 40}}>
-        <Text style={{...styles.title, color:"rgb(73, 163, 128)"}}>U</Text>
-        <Text style={{...styles.title, color:"rgb(118, 199, 138)"}}>o</Text>
-        <Text style={{...styles.title, color:"rgb(73, 163, 128)"}}>ME</Text>
+    <View style={{...s.mainScreenB, paddingBottom: 100}}>
+      <AppTitle/>
+      <View>
+          <TextInput style={s.textInput} placeholderTextColor="lightgray" textContentType="username" placeholder="email" onChangeText={newText => setUser(newText)}/>
+          <TextInput style={s.textInput} placeholderTextColor="lightgray" textContentType="password" placeholder="password" secureTextEntry={true} onChangeText={newText => setPass(newText)}/>
+          <Link href="/forgot-pass" asChild><TouchableOpacity><Text style={{...s.linkText, marginVertical: 5}}>Forgot password?</Text></TouchableOpacity></Link>
+          <TouchableOpacity style={s.hozButton} onPress={() => {validateUser()}}><Text style={s.buttonText}>Log In</Text></TouchableOpacity>
       </View>
-      <View style={{...s.hbox, marginBottom: 200}}>
-        <Link style={s.button} href="./sign-in" asChild><TouchableOpacity><Text style={s.buttonText}>Login</Text></TouchableOpacity></Link>
-        <Link style={s.button} href="./sign-in" asChild><TouchableOpacity><Text style={s.buttonText}>Sign Up</Text></TouchableOpacity></Link>
+
+      <View style={{...s.hbox, margin: 5}}>
+          <Text style={{...s.plainText, color: "rgb(73, 163, 128)"}}>No account?</Text>
+          <Link href="/sign-up" asChild><TouchableOpacity><Text style={s.linkText}> Sign up now!</Text></TouchableOpacity></Link>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 30,
-    fontFamily: "Verdana",
-    fontWeight: "600",
-  },
-}); 

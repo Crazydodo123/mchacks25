@@ -4,6 +4,11 @@ import requests
 import base64
 from . import db
 from .models import Transactions, User
+from dotenv import load_dotenv
+
+import requests, json, os
+
+load_dotenv()
 
 bp = Blueprint('debt', __name__, url_prefix='/api/debt')
 
@@ -105,24 +110,49 @@ def get_debts_from_id(id):
 # extracts costs of products and allows users to decide who bought what
 @bp.post("/extract-receipt")
 def extract_receipt():
-    if 'image' not in request.files:
-        return jsonify({'error': 'No image file provided'}), 400
-    # Retrieve the uploaded image
-    image_file = request.files['image']
+    data = request.get_json()
+    image = data.get('image')
 
-    # Convert the image to base64 (if required by the Gumloop API)
-    image_base64 = base64.b64encode(image_file.read()).decode('utf-8')
+    if not image:
+        return jsonify({'error': 'Missing required fields'}), 400
+
+
+    url = "https://api.veryfi.com/api/v8/partner/documents"
+
+    payload = json.dumps({ "file_data": image })
+
+    client_id = os.getenv('CLIENT_ID')
+    authorization = os.getenv('AUTHORIZATION')
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'CLIENT-ID': client_id,
+        'AUTHORIZATION': authorization
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    return response.json()
+
+@bp.post("/send-text")
+def send_text():
+    data = request.get_json()
+    email = data.get('email')
+    message = data.get('message')
     url = "https://api.gumloop.com/api/v1/start_pipeline"
 
     payload = {
-    "user_id": "xAOao0fOp4chdJeXLOMy28LBiim1",
-    "saved_item_id": "8ZfX7fynGzZsjsiJKynwJd",
-    "file_name": "receipt_input",
-    "file_content": image_file
+        "user_id": "xAOao0fOp4chdJeXLOMy28LBiim1",
+        "saved_item_id": "5kRukEgUKGUyADokZTcL2v",
+        "pipeline_inputs": [
+            {"input_name": "message", "value": message},
+            {"input_name": "email", "value": email}
+        ]
     }
     headers = {
-    "Authorization": "Bearer dad6eb5438ed4df49e3bd066092e9d45",
-    "Content-Type": "application/json"
+        "Authorization": "Bearer dad6eb5438ed4df49e3bd066092e9d45",
+        "Content-Type": "application/json"
     }
 
     response = requests.request("POST", url, json=payload, headers=headers)

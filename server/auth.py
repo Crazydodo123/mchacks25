@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from random import randint
+from markupsafe import escape
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -49,10 +50,9 @@ def login():
     response.pop("password")
     return response, 200
 
-@bp.post('/get_info')
-def get_user_info():
-    data = request.get_json()
-    id = data.get("id")
+@bp.get('/get_info/<id>')
+def get_user_info(id):
+    id = escape(id)
 
     if not id:
         return jsonify({'error': 'Missing id'}), 400
@@ -60,4 +60,7 @@ def get_user_info():
     if id not in [user["id"] for user in users.values()]:
         return jsonify({'error': 'Invalid credentials'}), 401
     
-    return [user for user in users.values() if user["id"] == id][0]
+    response = [user for user in users.values() if user["id"] == id][0]
+
+    response.pop("password")
+    return response, 200

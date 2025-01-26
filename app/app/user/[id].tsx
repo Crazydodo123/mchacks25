@@ -9,9 +9,11 @@ export default function Details() {
     const s = require("../../styles.js");
 
     useEffect(() => {
-		const response = authServices.getUserInfo(id)
-        
-        console.log(response)
+        const init = async () => {
+            const response = await authServices.getUserInfo(id)
+            console.log(response)
+        }
+        init()
 	}, []);
 
     return (

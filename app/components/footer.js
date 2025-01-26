@@ -6,18 +6,20 @@ import { Feather } from "@expo/vector-icons"; 
 const Footer = (props) => {
     const s = require("../styles.js");
 
-    const icons = [["home", "[id]"], ["users", "friends"], ["plus", "track-debt"], ["trending-up", "stats"], ["settings", "settings"]];
+    // [feather icon name, page extension (for navigation), page name (for display)]
+    const icons = [["home", "[id]", "home"], ["users", "friends", "friends"], ["plus", "track-debt", "track"], ["trending-up", "stats", "statistics"], ["settings", "settings", "settings"]];
 
     return (
         <View style={{...s.hbox, backgroundColor: "white", width: "100%", justifyContent: "space-evenly"}}>
-            <FlatList contentContainerStyle={{justifyContent: "space-evenly"}} scrollEnabled={false} data={icons} horizontal={true}
+            <FlatList contentContainerStyle={{flexGrow: 1, flex: 1, justifyContent: "center"}} scrollEnabled={false} data={icons} horizontal={true}
                 renderItem={({item}) => {
                     return (
                         <TouchableOpacity
-                            style={props.page == item[0] ? {backgroundColor: "rgb(73, 163, 128)"} : {backgroundColor: "white"}}
-                            onPress={() => {router.replace({pathname: "/users/"+item[1]})}}
+                            style={props.page == item[0] ? {...s.iconBox, backgroundColor: "rgb(73, 163, 128)"} : s.iconBox}
+                            onPress={() => {router.replace({pathname: "/user/"+item[1]})}}
                             >
-                            <Feather style={s.icon} name={item[0]}/>
+                            <Feather style={props.page == item[0] ? {...s.icon, color: "#e3ffc8"} : s.icon} name={item[0]}/>
+                            <Text style={props.page == item[0] ? {...s.iconText, color: "#e3ffc8"} : s.iconText}>{item[2]}</Text>
                         </TouchableOpacity>
                     )
                 }}

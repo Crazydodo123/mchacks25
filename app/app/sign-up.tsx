@@ -21,7 +21,7 @@ export default function Index() {
     const response = await authServices.login({ email, password })
 
     console.log(response)
-    router.navigate({pathname: "/user/[id]", params: { id: response.id }})
+    router.replace({pathname: "/user/home", params: { id: response.id }})
   }
 
   return (

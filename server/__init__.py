@@ -46,6 +46,9 @@ def create_app():
     app.register_blueprint(auth.bp)
     app.register_blueprint(debt.bp)
 
+    with app.app_context():
+        db.create_all()
+
     @app.route('/hello')
     def hello():
         return 'Hello, World!'

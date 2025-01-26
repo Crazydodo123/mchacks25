@@ -15,7 +15,7 @@ export default function Index() {
   };
 
   return (
-    <View style={{...s.mainScreenB, paddingBottom: 150}}>
+    <View style={{...s.mainScreenB, paddingBottom: 100}}>
       <AppTitle/>
       <View>
           <TextInput style={s.textInput} placeholderTextColor="lightgray" textContentType="username" placeholder="email" onChangeText={newText => setUser(newText)}/>

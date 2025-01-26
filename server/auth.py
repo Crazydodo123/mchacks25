@@ -67,6 +67,8 @@ def get_user_info(id):
     if id not in [user["id"] for user in users.values()]:
         return jsonify({'error': 'Invalid credentials'}), 401
     
+    user = User.query.get(id)
+    
     return jsonify({
         'id': user.id,
         'email': user.email,

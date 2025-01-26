@@ -45,3 +45,27 @@ def extract_receipt():
     response = requests.request("POST", url, headers=headers, data=payload)
 
     return response.json()
+
+@bp.post("/send-text")
+def send_text():
+    data = request.get_json()
+    email = data.get('email')
+    message = data.get('message')
+    url = "https://api.gumloop.com/api/v1/start_pipeline"
+
+    payload = {
+        "user_id": "xAOao0fOp4chdJeXLOMy28LBiim1",
+        "saved_item_id": "5kRukEgUKGUyADokZTcL2v",
+        "pipeline_inputs": [
+            {"input_name": "message", "value": message},
+            {"input_name": "email", "value": email}
+        ]
+    }
+    headers = {
+        "Authorization": "Bearer dad6eb5438ed4df49e3bd066092e9d45",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.request("POST", url, json=payload, headers=headers)
+
+    print(response.text)

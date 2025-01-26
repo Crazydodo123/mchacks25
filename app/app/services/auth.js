@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:5000/api/auth'
+const baseUrl = 'https://boss-previously-grubworm.ngrok-free.app/api/auth'
 
 const register = async (newUser) => {
     const response = await axios.post(`${baseUrl}/register`, newUser)

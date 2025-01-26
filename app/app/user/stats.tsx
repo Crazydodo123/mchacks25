@@ -37,34 +37,33 @@ const AnalyticsPage = () => {
     
     const oneMonthAgo = currentDate.toISOString().split("T")[0] + "T00:00:00Z";
 
-    
-
     return (
-        <View>
-            <View style={{...s.mainScreenB, paddingBottom: 150, justifyContent: "flex-start", padding: 30 }}>
+        <View style={s.mainScreenB}>
+            <View style={{flexGrow: 1, paddingBottom: 150, justifyContent: "flex-start", padding: 30 }}>
                 <View id="title">
                     <Text style={{ fontSize: 30, fontWeight: "bold", fontFamily: "Verdana" }}>Charts</Text>
                     <Text style={{ fontSize: 26, fontWeight: 500, fontFamily: "Verdana" }}>And Diagrams</Text>
                 </View>
 
-            <Text style={{ fontSize: 16, fontFamily: "Verdana", marginTop: 30, textAlign: 'left', width: "100%", marginBottom: 10 }}>Most in Debt</Text>
-            <View style={{ marginBottom: 20 }}>
-                {Object.keys(sampleData)
-                .sort((a, b) => {
-                    return sampleData[a][sampleData[a].length - 1] - sampleData[b][sampleData[b].length - 1];
-                })
-                .map((name, index) => (
-                    <View key={index} style={{ flexDirection: "row", paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: "#ccc" }}>
-                    <Text style={{ fontSize: 16, color: "#333", flex: 1, width: "20%" }}>{name}</Text>
-                    <Text style={{ fontSize: 16, color: "#333", flex: 1, textAlign: "center" }}>
-                        {sampleData[name][sampleData[name].length - 1].toFixed(2)} $
-                    </Text>
-                    </View>
-                ))}
+                <Text style={{ fontSize: 16, fontFamily: "Verdana", marginTop: 30, textAlign: 'left', width: "100%", marginBottom: 10 }}>Most in Debt</Text>
+                <View style={{ marginBottom: 20 }}>
+                    {Object.keys(sampleData)
+                    .sort((a, b) => {
+                        return sampleData[a][sampleData[a].length - 1] - sampleData[b][sampleData[b].length - 1];
+                    })
+                    .map((name, index) => (
+                        <View key={index} style={{ flexDirection: "row", paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: "#ccc" }}>
+                            <Text style={{ fontSize: 16, color: "#333", flex: 1, width: "20%" }}>{name}</Text>
+                            <Text style={{ fontSize: 16, color: "#333", flex: 1, textAlign: "center" }}>
+                                {sampleData[name][sampleData[name].length - 1].toFixed(2)} $
+                            </Text>
+                        </View>
+                    ))}
+                </View>
             </View>
+            <Footer page="stats" id={id} email={email}/>
         </View>
-    </View>
-  );
+    );
 };
 
 export default AnalyticsPage;

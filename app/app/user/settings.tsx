@@ -85,8 +85,10 @@ export default function SettingsScreen() {
                             <Text style={s.styleText}>settings</Text>
                         </View>
                         <View style={{alignItems: "center", backgroundColor: "rbg(245, 245, 245)"}}>
-                            <View style={{width: 80, height: 80, backgroundColor: "lightseagreen", borderRadius: 100}}/>
-                            <Text style={{...s.plainText, padding: 15}}>{email}</Text>
+                            <View style={{justifyContent: "center", alignItems: "center", width: 80, height: 80, backgroundColor: "lightseagreen", borderRadius: 100}}>
+                                <Feather name="user" style={{opacity: 0.5, color: "white", fontSize: 40}}/>
+                            </View>
+                            <Text style={{...s.plainText, padding: 15, color: "rgb(100, 100, 100)"}}>{email}</Text>
                             <TouchableOpacity style={s.hozButton} onPress={() => {}}><Text style={s.buttonText}>Logout</Text></TouchableOpacity>
                             <TouchableOpacity disabled={!tempChange} onPress={() => {setSettings(tempSettings); setTempChange(false)}} style={tempChange ? s.hozButton : {...s.hozButton, opacity: 0.4}}><Text style={s.buttonText}>Save Changes</Text></TouchableOpacity>
                         </View>

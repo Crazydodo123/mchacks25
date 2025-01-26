@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Feather } from "@expo/vector-icons";
 import AppTitle from "../../components/title";
 
-export default function CameraOverlay() {
+export default function PasswordOverlay() {
     const s = require("../../styles.js");
     const [ogPass, setOGPass] = useState("");
     const [newPass, setNewPass] = useState("");

@@ -3,13 +3,14 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 class Base(DeclarativeBase):
     pass
 
 load_dotenv()
 
-db = SQLAlchemy(model_class=Base)from flask_cors import CORS
+db = SQLAlchemy(model_class=Base)
 
 def create_app():
     # create and configure the app

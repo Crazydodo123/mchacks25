@@ -1,6 +1,9 @@
-from flask import Blueprint, request, jsonify, Flask
-import base64
-from mindee import Client, PredictResponse, product
+from flask import Blueprint, request, jsonify
+from dotenv import load_dotenv
+
+import requests, json, os
+
+load_dotenv()
 
 bp = Blueprint('poker', __name__, url_prefix='/api/debt')
 
@@ -18,21 +21,27 @@ def get_debts_from_id():
 
 @bp.post("/extract-receipt")
 def extract_receipt():
-    if "file" not in request.files:
-        return jsonify({"error": "No file provided"}), 400
-    # Init a new client
-    imgFile = request.files["file"]  
-    mindee_client = Client(api_key="8a5a0fe590306339d4a2fb712dc715ea")
+    data = request.get_json()
+    image = data.get('image')
 
-    # Load a file from disk
-    input_doc = mindee_client.source_from_path(base64_string)
+    if not image:
+        return jsonify({'error': 'Missing required fields'}), 400
 
-    # Load a file from disk and parse it.
-    # The endpoint name must be specified since it cannot be determined from the class.
-    result: PredictResponse = mindee_client.parse(product.ReceiptV5, input_doc)
 
-    # Print a summary of the API result
-    print(result.document)
+    url = "https://api.veryfi.com/api/v8/partner/documents"
 
-    # Print the document-level summary
-    # print(result.document.inference.prediction)
+    payload = json.dumps({ "file_data": image })
+
+    client_id = os.getenv('CLIENT_ID')
+    authorization = os.getenv('AUTHORIZATION')
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'CLIENT-ID': client_id,
+        'AUTHORIZATION': authorization
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    return response.json()
